@@ -1,6 +1,9 @@
 # azure-dyndns2
-
-//TODO Badge License | Badge SonarCloud Statistic
+[![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](https://go.dev/)
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/JannoTjarks/azure-dyndns2.svg)](https://github.com/JannoTjarks/azure-dyndns2)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JannoTjarks_azure-dyndns2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=JannoTjarks_azure-dyndns2)
+[![GitHub license](https://img.shields.io/github/license/JannoTjarks/azure-dyndns2.svg)](https://github.com/JannoTjarks/azure-dyndns2/blob/master/LICENSE)
+[![Latest release](https://badgen.net/github/release/JannoTjarks/azure-dyndns2)](https://github.com/JannoTjarks/azure-dyndns2/releases)
 
 DynDNS (Dynamic DNS) is a service that allows the IP address of a server or application to be automatically updated when it changes, ensuring stable reachability.
 
