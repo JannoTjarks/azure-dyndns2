@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "JannoTjarks/azure-dyndns2/cmd"
 
 func main() {
-	fmt.Println("Moin World")
+	cmd.Execute()
 }
