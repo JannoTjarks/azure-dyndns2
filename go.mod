@@ -1,4 +1,4 @@
-module JannoTjarks/azure-dyndns2
+module github.com/JannoTjarks/azure-dyndns2
 
 go 1.24.6
 
