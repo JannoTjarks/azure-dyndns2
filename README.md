@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/JannoTjarks/azure-dyndns2.svg)](https://github.com/JannoTjarks/azure-dyndns2/blob/master/LICENSE)
 [![Latest release](https://badgen.net/github/release/JannoTjarks/azure-dyndns2)](https://github.com/JannoTjarks/azure-dyndns2/releases)
 
-DynDNS (Dynamic DNS) is a service that allows the IP address of a server or application to be automatically updated when it changes, ensuring stable reachability.
+DynDNS (Dynamic DNS) is a service that allows the DNS record of a server or application to be automatically updated when it changes, ensuring stable reachability.
 
 Currently (Sommer 2025) Azure has no built-in solution for DynDNS. This project goal is to enable Azure DNS to support DynDNS by adding a small webapi, which can be addressed by the DynDNS Update API, also called the dyndns2 standard.
 That’s why this project is called azure-dyndns2.
@@ -16,7 +16,7 @@ Using a web API instead of a command line tool allows for greater flexibility an
 …
 
 ## The DynDNS Update API
-The DynDNS Update API allows the update of an ip address with an WebAPI/REST call. This call is described here: DynDNS Perform Update.
+The DynDNS Update API allows the update of a DNS record with a WebAPI/REST call. This call is described here: DynDNS Perform Update.
 
 Based on this standard the following minimal schema would allow the update of a dns record:
 ```bash
@@ -29,7 +29,7 @@ Host: {dyndns-service}
 Authorization: Basic {base64-decoded-authorization}
 User-Agent: {client-user-agent}
 ```
-The dyndns update request should always be done with a HTTP GET request; DynDNS seems still to accept HTTP POST requests, but mentions, that this behavior can change without notice!
+The dyndns update request should always be done with a HTTP GET request; DynDNS seems still to accept HTTP POST requests, but dyn.com mentions, that this behavior can change without notice!
 
 Because of that, this tool will accept right from the beginning only HTTP GET requests on the path /nic/update.
 
