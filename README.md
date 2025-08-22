@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/JannoTjarks/azure-dyndns2.svg)](https://github.com/JannoTjarks/azure-dyndns2/blob/master/LICENSE)
 [![Latest release](https://badgen.net/github/release/JannoTjarks/azure-dyndns2)](https://github.com/JannoTjarks/azure-dyndns2/releases)
 
-DynDNS (Dynamic DNS) is a service that allows the DNS record of a server or application to be automatically updated when it changes, ensuring stable reachability.
+DynDNS (Dynamic DNS) is a service that allows the DNS record of a router or server to be automatically updated when it changes, ensuring stable reachability.
 
 Currently (Sommer 2025) Azure has no built-in solution for DynDNS. This project goal is to enable Azure DNS to support DynDNS by adding a small webapi, which can be addressed by the DynDNS Update API, also called the dyndns2 standard.
 That’s why this project is called azure-dyndns2.
@@ -21,7 +21,7 @@ The DynDNS Update API allows the update of a DNS record with a WebAPI/REST call.
 Based on this standard the following minimal schema would allow the update of a dns record:
 ```bash
 # URL Syntax
-https://{user}:{passeord}@{dyndns-service}/nic/update?hostname={hostname}&myip={IP Address}
+https://{user}:{password}@{dyndns-service}/nic/update?hostname={hostname}&myip={IP Address}
 
 # Raw HTTP GET Request
 GET /nic/update?hostname={hostname}&myip={ipaddress} HTTP/1.0
