@@ -16,7 +16,7 @@ Using a web API instead of a command line tool allows for greater flexibility an
 `azure-dyndns2` has two modes:
 | Mode | Description | Status |
 | --- | --- | --- |
-| one-shot | Sets a A Record in Azure DNS based one-time | In testing |
+| one-shot | Sets a A Record in Azure DNS one-time | In testing |
 | serve | Starts a webserver which accepts http requests that are following the dyndns2 standard. | Work in progress |
 
 ### Run the one-shot mode
