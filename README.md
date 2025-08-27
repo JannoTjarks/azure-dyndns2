@@ -13,7 +13,16 @@ That’s why this project is called azure-dyndns2.
 Using a web API instead of a command line tool allows for greater flexibility and compatibility with various clients, such as simple ISP-managed routers, which typically have only few basic configuration options.
 
 ## Usage
-…
+`azure-dyndns2` has two modes:
+| Mode | Description | Status |
+| --- | --- | --- |
+| one-shot | Sets a A Record in Azure DNS based one-time | In testing |
+| serve | Starts a webserver which accepts http requests that are following the dyndns2 standard. | Work in progress |
+
+### Run the one-shot mode
+```bash
+./azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address> --dns-zone <azure-zone-name> --dns-resource-group <azure-resource-group-name> --dns-subscription <azure-subscription-id>
+```
 
 ## The DynDNS Update API
 The DynDNS Update API allows the update of an ip address with an WebAPI/REST call. This call is described here: [DynDNS Perform Update](https://help.dyn.com/remote-access-api/perform-update).
