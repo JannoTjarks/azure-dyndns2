@@ -16,7 +16,7 @@ Using a web API instead of a command line tool allows for greater flexibility an
 …
 
 ## The DynDNS Update API
-The DynDNS Update API allows the update of a DNS record with a WebAPI/REST call. This call is described here: DynDNS Perform Update.
+The DynDNS Update API allows the update of an ip address with an WebAPI/REST call. This call is described here: [DynDNS Perform Update](https://help.dyn.com/remote-access-api/perform-update).
 
 Based on this standard the following minimal schema would allow the update of a dns record:
 ```bash
