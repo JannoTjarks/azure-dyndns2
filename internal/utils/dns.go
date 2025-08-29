@@ -49,8 +49,10 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 		subscriptionId,
 	)
 
+	pqdn, _ := strings.CutSuffix(hostname, "."+dnsZone.Name)
+
 	dynDnsRecord := newAzureDynDnsRecord(
-		strings.Trim(hostname, dnsZone.Name),
+		pqdn,
 		myip,
 	)
 
