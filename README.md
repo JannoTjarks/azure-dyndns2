@@ -21,7 +21,7 @@ Using a web API instead of a command line tool allows for greater flexibility an
 
 ### Run the one-shot mode
 ```bash
-./azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address> --dns-zone <azure-zone-name> --dns-resource-group <azure-resource-group-name> --dns-subscription <azure-subscription-id>
+./azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address> --dns-zone-name <azure-zone-name> --dns-resource-group-name <azure-resource-group-name> --dns-subscription-id <azure-subscription-id>
 ```
 
 ## The DynDNS Update API

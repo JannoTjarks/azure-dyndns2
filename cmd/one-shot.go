@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	hostname      string
-	myip          string
-	dnsZone       string
-	resourceGroup string
-	subscription  string
+	hostname          string
+	myip              string
+	dnsZoneName       string
+	resourceGroupName string
+	subscriptionId    string
 )
 
 var oneshotCmd = &cobra.Command{
@@ -20,7 +20,7 @@ var oneshotCmd = &cobra.Command{
 	Short:   "Set a DNS Record direct from the CLI",
 	Long:    "Allows you to set a DNS Record direct from the CLI",
 	Run: func(cmd *cobra.Command, args []string) {
-		utils.CreateOrUpdateDynDnsRecord(hostname, myip, dnsZone, resourceGroup, subscription)
+		utils.CreateOrUpdateDynDnsRecord(hostname, myip, dnsZoneName, resourceGroupName, subscriptionId)
 	},
 }
 
@@ -30,7 +30,7 @@ func init() {
 	oneshotCmd.Flags().StringVarP(&hostname, "hostname", "n", "", "Hostname which will be updated - Must be a Fully Qualified Domain Name (fqdn)")
 	oneshotCmd.Flags().StringVarP(&myip, "myip", "i", "", "IP Adress which will be set in Azure DNS - Must be a IPv4 Address")
 
-	oneshotCmd.Flags().StringVarP(&dnsZone, "dns-zone", "z", "", "The name of the Azure DNS zone")
-	oneshotCmd.Flags().StringVarP(&resourceGroup, "dns-resource-group", "r", "", "The name of the Resource Group which contains the Azure DNS zone")
-	oneshotCmd.Flags().StringVarP(&subscription, "dns-subscription", "s", "", "The Subscription Id which contains the Azure DNS zone")
+	oneshotCmd.Flags().StringVarP(&dnsZoneName, "dns-zone-name", "z", "", "The name of the Azure DNS zone")
+	oneshotCmd.Flags().StringVarP(&resourceGroupName, "dns-resource-group-name", "r", "", "The name of the Resource Group which contains the Azure DNS zone")
+	oneshotCmd.Flags().StringVarP(&subscriptionId, "dns-subscription-id", "s", "", "The Subscription Id which contains the Azure DNS zone")
 }
