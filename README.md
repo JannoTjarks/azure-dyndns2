@@ -3,7 +3,8 @@
 [![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/JannoTjarks/azure-dyndns2.svg)](https://github.com/JannoTjarks/azure-dyndns2)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JannoTjarks_azure-dyndns2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=JannoTjarks_azure-dyndns2)
 [![GitHub license](https://img.shields.io/github/license/JannoTjarks/azure-dyndns2.svg)](https://github.com/JannoTjarks/azure-dyndns2/blob/master/LICENSE)
-[![Latest release](https://badgen.net/github/release/JannoTjarks/azure-dyndns2)](https://github.com/JannoTjarks/azure-dyndns2/releases)
+[![Latest release](https://img.shields.io/github/v/release/JannoTjarks/azure-dyndns2)](https://github.com/JannoTjarks/azure-dyndns2/releases)
+
 
 DynDNS (Dynamic DNS) is a service that allows the DNS record of a router or server to be automatically updated when it changes, ensuring stable reachability.
 
