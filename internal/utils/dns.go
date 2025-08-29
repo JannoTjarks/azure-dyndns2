@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -94,5 +95,5 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 		log.Fatalf("failed to finish the request: %v", err)
 	}
 
-	fmt.Println(*res.Properties.ProvisioningState)
+	fmt.Printf("%s: %s\n", time.Now().Format("2006-01-02T15:04:05Z07:00"), *res.Properties.ProvisioningState)
 }
