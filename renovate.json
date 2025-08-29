@@ -1,0 +1,12 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "gitAuthor": "Jannos Renovate Bot <janno.tjarks@mailbox.org>",
+    "extends": [
+        "config:recommended",
+        ":separateMultipleMajorReleases",
+        ":ignoreUnstable",
+        ":semanticCommits",
+        ":semanticPrefixChore",
+        "security:openssf-scorecard"
+    ]
+}
