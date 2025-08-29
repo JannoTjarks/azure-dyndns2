@@ -58,7 +58,7 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 		log.Fatalf("authentication failure: %v", err)
 	}
 
-	clientFactory, err := armdns.NewClientFactory(dnsZone.Subscription, cred, nil)
+	armdnsClient, err := armdns.NewClientFactory(dnsZone.Subscription, cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create armdns client: %v", err)
 	}
@@ -78,9 +78,9 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 		IfNoneMatch: nil,
 	}
 
-	client := clientFactory.NewRecordSetsClient()
+	recordsetClient := armdnsClient.NewRecordSetsClient()
 
-	res, err := client.CreateOrUpdate(
+	res, err := recordsetClient.CreateOrUpdate(
 		ctx,
 		dnsZone.ResourceGroup,
 		dnsZone.Name,
