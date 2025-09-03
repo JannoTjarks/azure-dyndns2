@@ -12,6 +12,7 @@ var (
 	dnsZoneName       string
 	resourceGroupName string
 	subscriptionId    string
+	port              string
 )
 
 var rootCmd = &cobra.Command{
