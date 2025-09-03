@@ -1,0 +1,5 @@
+builds:
+  - # Default: '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy=goreleaser'.
+    # Templates: allowed.
+    ldflags:
+      - '-s -w -X github.com/JannoTjarks/azure-dyndns2/internal/utils.Version={{.Version}} -X github.com/JannoTjarks/azure-dyndns2/internal/utils.commit={{.Commit}} -X github.com/JannoTjarks/azure-dyndns2/internal/utils.date={{.Date}} -X github.com/JannoTjarks/azure-dyndns2/internal/utils.buildby=goreleaser'
