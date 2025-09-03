@@ -23,6 +23,6 @@ func formatCommonLog(req http.Request, currentTime time.Time, statusCode int) st
 	} else {
 		query = ""
 	}
-	
+
 	return fmt.Sprintf("%s %s %s %s \"%s %s%s %s\" %d %d", req.RemoteAddr, "-", userId, currentTime.Format("2006-01-02T15:04:05Z07:00"), req.Method, req.URL.Path, query, req.Proto, statusCode, req.ContentLength)
 }

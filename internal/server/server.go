@@ -11,11 +11,12 @@ import (
 )
 
 var config serverConfig
+
 type serverConfig struct {
-	port string
+	port              string
 	dnsZoneName       string
 	resourceGroupName string
-	subscriptionId  string
+	subscriptionId    string
 }
 
 func newServerConfig(port string, dnsZoneName string, resourceGroupName string, subscriptionId string) serverConfig {
