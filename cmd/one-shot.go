@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/JannoTjarks/azure-dyndns2/internal/utils"
 
 	"github.com/spf13/cobra"
@@ -20,7 +22,10 @@ var oneshotCmd = &cobra.Command{
 	Short:   "Set a DNS Record direct from the CLI",
 	Long:    "Allows you to set a DNS Record direct from the CLI",
 	Run: func(cmd *cobra.Command, args []string) {
-		utils.CreateOrUpdateDynDnsRecord(hostname, myip, dnsZoneName, resourceGroupName, subscriptionId)
+		err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, dnsZoneName, resourceGroupName, subscriptionId)
+		if err != nil {
+			log.Fatal("An error occured...")
+		}
 	},
 }
 
