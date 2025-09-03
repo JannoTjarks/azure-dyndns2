@@ -8,14 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	hostname          string
-	myip              string
-	dnsZoneName       string
-	resourceGroupName string
-	subscriptionId    string
-)
-
 var oneshotCmd = &cobra.Command{
 	Use:     "one-shot",
 	Aliases: []string{"oneshot"},

@@ -6,6 +6,14 @@ import (
 	"os"
 )
 
+var (
+	hostname          string
+	myip              string
+	dnsZoneName       string
+	resourceGroupName string
+	subscriptionId    string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "azure-dyndns2",
 	Short: "Simple dyndns2-compatible web api for Azure DNS",
