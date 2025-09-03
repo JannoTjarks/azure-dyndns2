@@ -11,7 +11,7 @@ var versionCmd = &cobra.Command{
 	Short: "Show version",
 	Long:  "Show the current version of azure-dyndns2",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(utils.Version)
+		fmt.Println(utils.GenerateVersionSignature())
 	},
 }
 
