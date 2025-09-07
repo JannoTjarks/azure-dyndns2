@@ -9,6 +9,11 @@ import (
 // https://httpd.apache.org/docs/2.4/logs.html
 // LogFormat "%h %l %u %t \"%r\" %>s %b" common
 // 127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
+
+// Ignore "Logging should not be vulnerable to injection attacks"
+// The only string, which can be free chosen by the requestor, is the path and query.
+// Even then, it will just get printed to stdout. From my understanding the severity is absolut minmal.
+// NOSONAR: S5145
 func formatCommonLog(req http.Request, currentTime time.Time, statusCode int) string {
 	var userId string
 	if req.URL.User.Username() != "" {
