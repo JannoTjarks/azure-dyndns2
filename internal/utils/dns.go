@@ -57,13 +57,13 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		fmt.Printf("authentication failure: %v", err)
+		fmt.Printf("authentication failure: %v\n", err)
 		return err
 	}
 
 	armdnsClient, err := armdns.NewClientFactory(dnsZone.Subscription, cred, nil)
 	if err != nil {
-		fmt.Printf("failed to create armdns client: %v", err)
+		fmt.Printf("failed to create armdns client: %v\n", err)
 		return err
 	}
 
@@ -95,7 +95,7 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 	)
 
 	if err != nil {
-		fmt.Printf("failed to finish the request: %v", err)
+		fmt.Printf("failed to finish the request: %v\n", err)
 		return err
 	}
 
