@@ -13,6 +13,7 @@ var (
 	resourceGroupName string
 	subscriptionId    string
 	port              string
+	json              bool
 )
 
 var rootCmd = &cobra.Command{
