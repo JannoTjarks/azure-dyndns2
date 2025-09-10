@@ -52,6 +52,17 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
+func versionHandler(w http.ResponseWriter, req *http.Request) {
+	if req.URL.Path != "/version" {
+		http.NotFound(w, req)
+		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
+		return
+	}
+
+	fmt.Fprintf(w, "%s\n", utils.GenrateVersionJson())
+	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
+}
+
 func rootHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/" {
 		http.NotFound(w, req)
@@ -74,6 +85,7 @@ func Serve(port string, dnsZoneName string, resourceGroupName string, subscripti
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /nic/update", ipUpdateHandler)
+	mux.HandleFunc("GET /version", versionHandler)
 	mux.HandleFunc("GET /", rootHandler)
 	mux.HandleFunc("/", fallbackHandler)
 
