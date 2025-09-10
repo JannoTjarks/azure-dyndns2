@@ -31,7 +31,6 @@ func newServerConfig(port string, dnsZoneName string, resourceGroupName string, 
 func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	if !req.URL.Query().Has("hostname") {
 		http.Error(w, "You have to specify the http query parameter 'hostname'", http.StatusBadRequest)
-		// NOSONAR: S5145
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusBadRequest))
 		return
 	}
@@ -47,45 +46,38 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, config.dnsZoneName, config.resourceGroupName, config.subscriptionId)
 	if err != nil {
-		// NOSONAR: S5145
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusInternalServerError))
 		return
 	}
 
-	// NOSONAR: S5145
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
 func versionHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/version" {
 		http.NotFound(w, req)
-		// NOSONAR: S5145
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
 		return
 	}
 
 	fmt.Fprintf(w, "%s\n", utils.GenrateVersionJson())
-	// NOSONAR: S5145
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
 func rootHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/" {
 		http.NotFound(w, req)
-		// NOSONAR: S5145
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
 		return
 	}
 
 	fmt.Fprintf(w, "Thanks for using azure-dyndns2!\n")
-	// NOSONAR: S5145
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
 func fallbackHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Allow", "GET")
 	http.Error(w, "HTTP Method is not allowed!", http.StatusMethodNotAllowed)
-	// NOSONAR: S5145
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusMethodNotAllowed))
 }
 
