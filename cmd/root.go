@@ -26,7 +26,7 @@ adding a small webapi, which can be addressed by the DynDNS
 Update API, also called the dyndns2 standard. That’s why this 
 project is called azure-dyndns2.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Moin World")
+		cmd.Help()
 	},
 }
 
