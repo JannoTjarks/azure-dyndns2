@@ -13,7 +13,6 @@ import (
 // Ignore "Logging should not be vulnerable to injection attacks"
 // The only string, which can be free chosen by the requestor, is the path and query.
 // Even then, it will just get printed to stdout. From my understanding the severity is absolut minmal.
-// NOSONAR: S5145
 func formatCommonLog(req http.Request, currentTime time.Time, statusCode int) string {
 	var userId string
 	if req.URL.User.Username() != "" {
