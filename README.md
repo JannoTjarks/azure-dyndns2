@@ -20,6 +20,8 @@ Using a web API instead of a command line tool allows for greater flexibility an
 | one-shot | Sets a A Record in Azure DNS one-time | In testing |
 | serve | Starts a webserver which accepts http requests that are following the dyndns2 standard. | In testing |
 
+Currently the AzureDNS Zone, the Resource Group and the Subscription must to be definded via Commandline.
+
 ### Run the one-shot mode
 ```bash
 ./azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address> --dns-zone-name <azure-zone-name> --dns-resource-group-name <azure-resource-group-name> --dns-subscription-id <azure-subscription-id>
