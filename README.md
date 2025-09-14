@@ -8,7 +8,7 @@
 
 DynDNS (Dynamic DNS) is a service that allows the DNS record of a router or server to be automatically updated when it changes, ensuring stable reachability.
 
-Currently (Sommer 2025) Azure has no built-in solution for DynDNS. This project goal is to enable Azure DNS to support DynDNS by adding a small webapi, which can be addressed by the DynDNS Update API, also called the dyndns2 standard.
+Currently (Fall 2025) Azure has no built-in solution for DynDNS. This project goal is to enable Azure DNS to support DynDNS by adding a small webapi, which can be addressed by the DynDNS Update API, also called the dyndns2 standard.
 That’s why this project is called azure-dyndns2.
 
 Using a web API instead of a command line tool allows for greater flexibility and compatibility with various clients, such as simple ISP-managed routers, which typically have only few basic configuration options.
