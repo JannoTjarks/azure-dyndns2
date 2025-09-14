@@ -26,11 +26,11 @@ func GenerateVersionSignature() string {
 func GenerateVersionJson() string {
 	versionStruct := versionStruct{
 		Version: version,
-		Commit: commit,
-		Date: date,
+		Commit:  commit,
+		Date:    date,
 		Buildby: buildby,
 	}
 
-    jsonBytes, _ := json.Marshal(versionStruct)
-    return string(jsonBytes)
+	jsonBytes, _ := json.Marshal(versionStruct)
+	return string(jsonBytes)
 }
