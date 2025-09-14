@@ -15,7 +15,7 @@ var versionCmd = &cobra.Command{
 			fmt.Println(utils.GenerateVersionJson())
 			return
 		}
-		
+
 		fmt.Println(utils.GenerateVersionSignature())
 	},
 }
