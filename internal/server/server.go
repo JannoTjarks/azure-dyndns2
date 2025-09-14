@@ -60,7 +60,7 @@ func versionHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "%s\n", utils.GenrateVersionJson())
+	fmt.Fprintf(w, "%s\n", utils.GenerateVersionJson())
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 

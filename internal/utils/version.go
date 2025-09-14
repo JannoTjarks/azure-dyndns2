@@ -23,7 +23,7 @@ func GenerateVersionSignature() string {
 	return fmt.Sprintf("azure-dyndns2 %s, commit %s, built at %s, build by %s", version, commit, date, buildby)
 }
 
-func GenrateVersionJson() string {
+func GenerateVersionJson() string {
 	versionStruct := versionStruct{
 		Version: version,
 		Commit: commit,
