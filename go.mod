@@ -1,6 +1,6 @@
 module github.com/JannoTjarks/azure-dyndns2
 
-go 1.24.6
+go 1.25.1
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
