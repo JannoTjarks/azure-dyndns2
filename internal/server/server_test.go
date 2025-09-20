@@ -22,7 +22,7 @@ func TestVersionHandler(t *testing.T) {
 	}
 
 	want := fmt.Sprintf("%s\n", `{"version":"dev","commit":"none","date":"unknown","buildby":"unknown"}`)
-	if  rr.Body.String() != want {
+	if rr.Body.String() != want {
 		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), want)
 	}
 }
@@ -42,7 +42,7 @@ func TestVersionHandlerWithExtraPath(t *testing.T) {
 	}
 
 	want := fmt.Sprintf("%s\n", `404 page not found`)
-	if  rr.Body.String() != want {
+	if rr.Body.String() != want {
 		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), want)
 	}
 }
