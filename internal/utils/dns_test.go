@@ -26,3 +26,27 @@ func TestNewAzureDnsZone(t *testing.T) {
 		t.Errorf(`utils.newAzureDnsZone() = %q, want match for %#q, nil`, record, want)
 	}
 }
+
+func TestExtractPQDN(t *testing.T) {
+	hostname := "en.wikipedia.org"
+	dnsZoneName := "wikipedia.org"
+	want := "en"
+
+	pqdn, err := extractPQDN(hostname, dnsZoneName)
+	if pqdn != want {
+		t.Errorf(`utils.extractPQDN() = %q, want match for %#q, nil`, pqdn, want)
+	}
+	if err != nil {
+		t.Errorf(`utils.extractPQDN() = invoke of function throws an error`)
+	}
+}
+
+func TestExtractPQDNFaulty(t *testing.T) {
+	hostname := "en.wikipedia.org"
+	dnsZoneName := "google.de"
+
+	_, err := extractPQDN(hostname, dnsZoneName)
+	if err == nil {
+		t.Errorf(`utils.extractPQDN() = Error should be shrown, because extracting of PQDN was not successful`)
+	}
+}

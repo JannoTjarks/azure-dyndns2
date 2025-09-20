@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -39,6 +40,15 @@ func newAzureDnsZone(dnsZone string, resourceGroup string, subscription string) 
 	return record
 }
 
+func extractPQDN(hostname string, dnsZoneName string) (string, error) {
+	pqdn, found := strings.CutSuffix(hostname, "."+dnsZoneName)
+	if !found {
+		return "", errors.New("it is not possible to extract the pqdn (partially-qualified domain name) from the hostname! the hostname must be a fqdn")
+	}
+
+	return pqdn, nil
+}
+
 func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string, resourceGroupName string, subscriptionId string) error {
 	ctx := context.Background()
 
@@ -48,7 +58,11 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 		subscriptionId,
 	)
 
-	pqdn, _ := strings.CutSuffix(hostname, "."+dnsZone.Name)
+	pqdn, err := extractPQDN(hostname, dnsZoneName)
+	if err != nil {
+		fmt.Printf("failed to create the request: %v\n", err)
+		return err
+	}
 
 	dynDnsRecord := newAzureDynDnsRecord(
 		pqdn,
