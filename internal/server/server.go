@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
@@ -12,21 +13,21 @@ import (
 	"github.com/swaggo/http-swagger/v2"
 )
 
-var config serverConfig
+var config ServerConfig
 
-type serverConfig struct {
-	port              string
-	dnsZoneName       string
-	resourceGroupName string
-	subscriptionId    string
+type ServerConfig struct {
+	Port              string `json:"port"`
+	DnsZoneName       string `json:"dnsZoneName"`
+	ResourceGroupName string `json:"resourceGroupName"`
+	SubscriptionId    string `json:"subscriptionId"`
 }
 
-func newServerConfig(port string, dnsZoneName string, resourceGroupName string, subscriptionId string) serverConfig {
-	config := serverConfig{}
-	config.port = port
-	config.dnsZoneName = dnsZoneName
-	config.resourceGroupName = resourceGroupName
-	config.subscriptionId = subscriptionId
+func newServerConfig(port string, dnsZoneName string, resourceGroupName string, subscriptionId string) ServerConfig {
+	config := ServerConfig{}
+	config.Port = port
+	config.DnsZoneName = dnsZoneName
+	config.ResourceGroupName = resourceGroupName
+	config.SubscriptionId = subscriptionId
 	return config
 }
 
@@ -55,7 +56,7 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	} else {
 		myip = req.RemoteAddr
 	}
-	provState, err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, config.dnsZoneName, config.resourceGroupName, config.subscriptionId)
+	provState, err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, config.DnsZoneName, config.ResourceGroupName, config.SubscriptionId)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusInternalServerError))
@@ -63,6 +64,25 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	fmt.Fprintf(w, "%s", provState)
+	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
+}
+
+// @Summary		Returns the current configuration of used azure-dyndns2 instance
+// @Description	Returns the current configuration of used azure-dyndns2 instance as json object.
+// @Produce		json
+// @Success		200		{string}	string
+// @Failure		404		{string}	string
+// @Router		/config [get]
+func configHandler(w http.ResponseWriter, req *http.Request) {
+	if req.URL.Path != "/config" {
+		http.NotFound(w, req)
+		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
+		return
+	}
+
+	jsonBytes, _ := json.Marshal(config)
+
+	fmt.Fprintf(w, "%s\n", string(jsonBytes))
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
@@ -111,6 +131,7 @@ func Serve(port string, dnsZoneName string, resourceGroupName string, subscripti
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /nic/update", ipUpdateHandler)
+	mux.HandleFunc("GET /config", configHandler)
 	mux.HandleFunc("GET /version", versionHandler)
 	mux.HandleFunc("GET /swagger/", httpSwagger.Handler(httpSwagger.URL("/swagger/doc.json")))
 	mux.HandleFunc("GET /", rootHandler)

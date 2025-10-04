@@ -26,6 +26,22 @@ paths:
           schema:
             type: string
       summary: Returns a small welcome message
+  /config:
+    get:
+      description: Returns the current configuration of used azure-dyndns2 instance
+        as json object.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Returns the current configuration of used azure-dyndns2 instance
   /nic/update:
     get:
       description: Set a DNS A Record by using the DynDNS Update API, also called

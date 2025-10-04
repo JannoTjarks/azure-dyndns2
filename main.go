@@ -4,7 +4,7 @@ import "github.com/JannoTjarks/azure-dyndns2/cmd"
 import _ "github.com/JannoTjarks/azure-dyndns2/docs"
 
 // @title		azure-dyndns2
-// @version		0.1.0
+// @version		0.1.1
 // @description	Simple dyndns2-compatible web api for Azure DNS.
 
 // @contact.name	Janno Tjarks

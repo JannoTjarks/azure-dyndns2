@@ -13,7 +13,7 @@ func TestNewAzureDynDnsRecord(t *testing.T) {
 	resourceGroupName := "publicdns-rg"
 	subscriptionId := "054a27fd-2cd9-42fa-9139-c99cf680fd35"
 
-	want := serverConfig{port, dnsZoneName, resourceGroupName, subscriptionId}
+	want := ServerConfig{port, dnsZoneName, resourceGroupName, subscriptionId}
 
 	record := newServerConfig(port, dnsZoneName, resourceGroupName, subscriptionId)
 

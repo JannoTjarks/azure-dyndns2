@@ -38,6 +38,29 @@
                 }
             }
         },
+        "/config": {
+            "get": {
+                "description": "Returns the current configuration of used azure-dyndns2 instance as json object.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Returns the current configuration of used azure-dyndns2 instance",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/nic/update": {
             "get": {
                 "description": "Set a DNS A Record by using the DynDNS Update API, also called the dyndns2 standard.",
