@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/JannoTjarks/azure-dyndns2/docs"
 	"github.com/JannoTjarks/azure-dyndns2/internal/utils"
+	"github.com/swaggo/http-swagger/v2"
 )
 
 var config serverConfig
@@ -28,6 +30,15 @@ func newServerConfig(port string, dnsZoneName string, resourceGroupName string, 
 	return config
 }
 
+// @Summary		Update IP address of a DNS Record
+// @Description	Set a DNS A Record by using the DynDNS Update API, also called the dyndns2 standard.
+// @Produce		plain
+// @Param			hostname	query		string		true	"Hostname which will be updated - Must be a Fully Qualified Domain Name"
+// @Param			myip	query		string		false	"IP Address which will be set in Azure DNS - Must be a IPv4 Address"
+// @Success		200		{string}	string
+// @Failure		400		{string}	string
+// @Failure		500		{string}	string
+// @Router		/nic/update [get]
 func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	if !req.URL.Query().Has("hostname") {
 		http.Error(w, "You have to specify the http query parameter 'hostname'", http.StatusBadRequest)
@@ -54,6 +65,12 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
+// @Summary		Returns the current version of azure-dyndns2
+// @Description	Returns the current version of azure-dyndns2 as json object.
+// @Produce		json
+// @Success		200		{string}	string
+// @Failure		404		{string}	string
+// @Router		/version [get]
 func versionHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/version" {
 		http.NotFound(w, req)
@@ -65,6 +82,12 @@ func versionHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
+// @Summary		Returns a small welcome message
+// @Description	Returns a small welcome message. This welcome page can be used as a very simple healthcheck.
+// @Produce		plain
+// @Success		200		{string}	string
+// @Failure		404		{string}	string
+// @Router		/ [get]
 func rootHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/" {
 		http.NotFound(w, req)
@@ -88,6 +111,7 @@ func Serve(port string, dnsZoneName string, resourceGroupName string, subscripti
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /nic/update", ipUpdateHandler)
 	mux.HandleFunc("GET /version", versionHandler)
+	mux.HandleFunc("GET /swagger/", httpSwagger.Handler(httpSwagger.URL("/swagger/doc.json")))
 	mux.HandleFunc("GET /", rootHandler)
 	mux.HandleFunc("/", fallbackHandler)
 

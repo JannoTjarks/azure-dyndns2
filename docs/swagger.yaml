@@ -1,0 +1,75 @@
+info:
+  contact:
+    email: janno.tjarks@mailbox.org
+    name: Janno Tjarks
+    url: https://tjarks.dev
+  description: Simple dyndns2-compatible web api for Azure DNS.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: azure-dyndns2
+  version: 0.1.0
+paths:
+  /:
+    get:
+      description: Returns a small welcome message. This welcome page can be used
+        as a very simple healthcheck.
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Returns a small welcome message
+  /nic/update:
+    get:
+      description: Set a DNS A Record by using the DynDNS Update API, also called
+        the dyndns2 standard.
+      parameters:
+      - description: Hostname which will be updated - Must be a Fully Qualified Domain
+          Name
+        in: query
+        name: hostname
+        required: true
+        type: string
+      - description: IP Address which will be set in Azure DNS - Must be a IPv4 Address
+        in: query
+        name: myip
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update IP address of a DNS Record
+  /version:
+    get:
+      description: Returns the current version of azure-dyndns2 as json object.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Returns the current version of azure-dyndns2
+swagger: "2.0"
