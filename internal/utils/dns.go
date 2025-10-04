@@ -49,7 +49,7 @@ func extractPQDN(hostname string, dnsZoneName string) (string, error) {
 	return pqdn, nil
 }
 
-func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string, resourceGroupName string, subscriptionId string) error {
+func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string, resourceGroupName string, subscriptionId string) (string, error) {
 	ctx := context.Background()
 
 	dnsZone := newAzureDnsZone(
@@ -61,7 +61,7 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 	pqdn, err := extractPQDN(hostname, dnsZoneName)
 	if err != nil {
 		fmt.Printf("failed to create the request: %v\n", err)
-		return err
+		return "", err
 	}
 
 	dynDnsRecord := newAzureDynDnsRecord(
@@ -72,13 +72,13 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		fmt.Printf("authentication failure: %v\n", err)
-		return err
+		return "", err
 	}
 
 	armdnsClient, err := armdns.NewClientFactory(dnsZone.Subscription, cred, nil)
 	if err != nil {
 		fmt.Printf("failed to create armdns client: %v\n", err)
-		return err
+		return "", err
 	}
 
 	recordSet := armdns.RecordSet{
@@ -110,9 +110,9 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 
 	if err != nil {
 		fmt.Printf("failed to finish the request: %v\n", err)
-		return err
+		return "", err
 	}
 
-	fmt.Printf("%s: DNS CreateOrUpdate %s\n", time.Now().Format("2006-01-02T15:04:05Z07:00"), *res.Properties.ProvisioningState)
-	return nil
+	provState := fmt.Sprintf("%s: DNS CreateOrUpdate %s\n", time.Now().Format("2006-01-02T15:04:05Z07:00"), *res.Properties.ProvisioningState)
+	return provState, nil
 }

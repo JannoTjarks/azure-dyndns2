@@ -55,13 +55,14 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	} else {
 		myip = req.RemoteAddr
 	}
-	err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, config.dnsZoneName, config.resourceGroupName, config.subscriptionId)
+	provState, err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, config.dnsZoneName, config.resourceGroupName, config.subscriptionId)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusInternalServerError))
 		return
 	}
 
+	fmt.Fprintf(w, "%s", provState)
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
