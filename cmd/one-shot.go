@@ -25,7 +25,7 @@ func init() {
 	rootCmd.AddCommand(oneshotCmd)
 
 	oneshotCmd.Flags().StringVarP(&hostname, "hostname", "n", "", "Hostname which will be updated - Must be a Fully Qualified Domain Name (fqdn)")
-	oneshotCmd.Flags().StringVarP(&myip, "myip", "i", "", "IP Adress which will be set in Azure DNS - Must be a IPv4 Address")
+	oneshotCmd.Flags().StringVarP(&myip, "myip", "i", "", "IP Address which will be set in Azure DNS - Must be a IPv4 Address")
 
 	oneshotCmd.Flags().StringVarP(&dnsZoneName, "dns-zone-name", "z", "", "The name of the Azure DNS zone")
 	oneshotCmd.Flags().StringVarP(&resourceGroupName, "dns-resource-group-name", "r", "", "The name of the Resource Group which contains the Azure DNS zone")
