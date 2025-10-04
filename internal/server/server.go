@@ -46,6 +46,7 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	err := utils.CreateOrUpdateDynDnsRecord(hostname, myip, config.dnsZoneName, config.resourceGroupName, config.subscriptionId)
 	if err != nil {
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusInternalServerError))
 		return
 	}
