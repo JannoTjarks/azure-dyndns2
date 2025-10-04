@@ -1,0 +1,109 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Simple dyndns2-compatible web api for Azure DNS.",
+        "title": "azure-dyndns2",
+        "contact": {
+            "name": "Janno Tjarks",
+            "url": "https://tjarks.dev",
+            "email": "janno.tjarks@mailbox.org"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Returns a small welcome message. This welcome page can be used as a very simple healthcheck.",
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Returns a small welcome message",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/nic/update": {
+            "get": {
+                "description": "Set a DNS A Record by using the DynDNS Update API, also called the dyndns2 standard.",
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Update IP address of a DNS Record",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hostname which will be updated - Must be a Fully Qualified Domain Name",
+                        "name": "hostname",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "IP Address which will be set in Azure DNS - Must be a IPv4 Address",
+                        "name": "myip",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/version": {
+            "get": {
+                "description": "Returns the current version of azure-dyndns2 as json object.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Returns the current version of azure-dyndns2",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
