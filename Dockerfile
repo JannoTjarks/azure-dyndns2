@@ -9,8 +9,10 @@ COPY . .
 RUN go build -trimpath -ldflags="-s -w" -o azure-dyndns2 .
  
 # ---------- Stage 2: Final ----------
-FROM debian:13 as run
+FROM opensuse/leap:16.0 as run
 COPY --from=build /app/azure-dyndns2 /app/azure-dyndns2
+RUN zypper refresh
+RUN zypper --non-interactive update
 WORKDIR /app
 EXPOSE 8080
 CMD ["/app/azure-dyndns2","serve"]
