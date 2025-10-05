@@ -9,7 +9,7 @@ COPY . .
 RUN go build -trimpath -ldflags="-s -w" -o azure-dyndns2 .
  
 # ---------- Stage 2: Final ----------
-FROM debian:11 as run
+FROM debian:12 as run
 COPY --from=build /app/azure-dyndns2 /app/azure-dyndns2
 WORKDIR /app
 EXPOSE 8080
