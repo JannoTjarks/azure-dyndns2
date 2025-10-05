@@ -14,22 +14,74 @@ That’s why this project is called azure-dyndns2.
 Using a web API instead of a command line tool allows for greater flexibility and compatibility with various clients, such as simple ISP-managed routers, which typically have only few basic configuration options.
 
 ## Usage
-`azure-dyndns2` has two modes:
-| Mode | Description | Status |
-| --- | --- | --- |
-| one-shot | Sets a A Record in Azure DNS one-time | In testing |
-| serve | Starts a webserver which accepts http requests that are following the dyndns2 standard. | In testing |
-
-Currently the AzureDNS Zone, the Resource Group and the Subscription must to be definded via Commandline.
-
-### Run the one-shot mode
+### One quick example
 ```bash
 ./azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address> --dns-zone-name <azure-zone-name> --dns-resource-group-name <azure-resource-group-name> --dns-subscription-id <azure-subscription-id>
 ```
 
-### Run the serve mode
+### All you need to know
+`azure-dyndns2` has two modes:
+| Mode | Description | Status |
+| --- | --- | --- |
+| one-shot | Sets a A Record in Azure DNS one-time | stable |
+| serve | Starts a webserver which accepts http requests that are following the dyndns2 standard. | In testing |
+
+As a base configuration the AzureDNS zone, the Resource Group and the Subscription MUST be specified.  
+When the application is used in serve mode, the network port CAN be specified. Port number 8080 is set as the default value.
+
+All configurations can be done via Commandline flags or with Environment variables:
+| Configuration | Commandline flag | Environment variable | Default Value |
+| --- | --- | --- | --- |
+| DNS zone name | dns-zone-name | AZURE_DYNDNS_DNS_ZONE_NAME | |
+| Resource Group Name | dns-resource-group-name | AZURE_DYNDNS_DNS_RESOURCE_GROUP_NAME | |
+| Subscription ID | dns-subscription-id | AZURE_DYNDNS_DNS_SUBSCRIPTION_ID | |
+| Port | port | AZURE_DYNDNS_PORT | 8080 |
+
+Authentication and authorization on your Azure tenant must be performed in order for a DNS record update to be carried out. The Microsoft modules used support the DefaultAzureCredential class for this purpose. 
+
+Currently two methods are tested:
+- [AzureCliCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.azureclicredential?view=azure-dotnet)
+- [EnvironmentCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet)
+
+The AzureCliCredential should only be used inside of interactive sessions. For non-interactive invokes the EnvironmentCredential method is recommended. In most cases, a principal with secret is used for this purpose. The following environment variables must be set:
+| Variable | Description |
+| --- | --- |
+| AZURE_TENANT_ID | The Microsoft Entra tenant (directory) ID |
+| AZURE_CLIENT_ID | The client (application) ID of an App Registration in the tenant |
+| AZURE_CLIENT_SECRET | A client secret that was generated for the App Registration |
+
+### Usage of the binary
+#### Run the one-shot mode
+```bash
+./azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address> --dns-zone-name <azure-zone-name> --dns-resource-group-name <azure-resource-group-name> --dns-subscription-id <azure-subscription-id>
+```
+
+#### Run the serve mode
 ```bash
 ./azure-dyndns2 serve --dns-zone-name <azure-zone-name> --dns-resource-group-name <azure-resource-group-name> --dns-subscription-id <azure-subscription-id>
+```
+
+### Usage of the Container
+A container image is available on the GitHub Container Registry.
+
+The container starts automatically the `serve mode`. If you want to use the one-shot command, you have to specify the command. It is recommended to do all configuration with Environment variables. The examples would work with an .env file in the following schema:
+```env
+AZURE_DYNDNS_DNS_ZONE_NAME=xyz
+AZURE_DYNDNS_DNS_RESOURCE_GROUP_NAME=xyz
+AZURE_DYNDNS_DNS_SUBSCRIPTION_ID=xyz
+
+AZURE_TENANT_ID=xyz
+AZURE_CLIENT_ID=xyz
+AZURE_CLIENT_SECRET=xyz
+```
+#### Run the one-shot mode
+```bash
+podman run --env-file .env ghcr.io/jannotjarks/azure-dyndns2:latest /app/azure-dyndns2 one-shot --hostname <fqdn> --myip <ip-address>
+```
+
+#### Run the serve mode
+```bash
+podman run --env-file .env -p 8080:8080 ghcr.io/jannotjarks/azure-dyndns2:latest
 ```
 
 ## The DynDNS Update API
