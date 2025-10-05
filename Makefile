@@ -15,4 +15,4 @@ fmt: ## Format all go files
 	go fmt ./...
 
 clean: ## Remove built files
-	rm -f $(BINARY_NAME) coverage.out
+	rm -f $(BINARY_NAME) coverage.out coverage.html
