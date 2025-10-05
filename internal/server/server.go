@@ -10,10 +10,24 @@ import (
 
 	_ "github.com/JannoTjarks/azure-dyndns2/docs"
 	"github.com/JannoTjarks/azure-dyndns2/internal/utils"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/swaggo/http-swagger/v2"
 )
 
-var config ServerConfig
+var (
+	config ServerConfig
+
+	ipUpdatesProcessedTotal = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "azure-dyndns2_processed_ip_updates_total",
+		Help: "The total number of processed ip updates via DynDNS Update API since start of the service.",
+	})
+	ipUpdatesProcessedSucceeded = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "azure-dyndns2_processed_ip_updates_succeeded",
+		Help: "The total number of succeeded ip updates via DynDNS Update API since start of the service.",
+	})
+)
 
 type ServerConfig struct {
 	Port              string `json:"port"`
@@ -41,6 +55,7 @@ func newServerConfig(port string, dnsZoneName string, resourceGroupName string, 
 // @Failure		500		{string}	string
 // @Router		/nic/update [get]
 func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
+	ipUpdatesProcessedTotal.Inc()
 	if !req.URL.Query().Has("hostname") {
 		http.Error(w, "You have to specify the http query parameter 'hostname'", http.StatusBadRequest)
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusBadRequest))
@@ -64,6 +79,7 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	fmt.Fprintf(w, "%s", provState)
+	ipUpdatesProcessedSucceeded.Inc()
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
@@ -136,6 +152,8 @@ func Serve(port string, dnsZoneName string, resourceGroupName string, subscripti
 	mux.HandleFunc("GET /swagger/", httpSwagger.Handler(httpSwagger.URL("/swagger/doc.json")))
 	mux.HandleFunc("GET /", rootHandler)
 	mux.HandleFunc("/", fallbackHandler)
+
+	mux.Handle("GET /metrics", promhttp.Handler())
 
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
