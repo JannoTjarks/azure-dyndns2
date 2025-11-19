@@ -10,6 +10,10 @@ RUN go build -trimpath -ldflags="-s -w" -o azure-dyndns2 .
  
 # ---------- Stage 2: Final ----------
 FROM opensuse/leap:16.0 as run
+LABEL org.opencontainers.image.source=https://github.com/JannoTjarks/azure-dyndns2
+LABEL org.opencontainers.image.description="Simple dyndns2-compatible web api for Azure DNS"
+LABEL org.opencontainers.image.licenses=Apache-2.0
+
 COPY --from=build /app/azure-dyndns2 /app/azure-dyndns2
 RUN zypper refresh
 RUN zypper --non-interactive update
