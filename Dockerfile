@@ -17,8 +17,8 @@ LABEL org.opencontainers.image.licenses=Apache-2.0
 RUN groupadd nonroot \
     && useradd nonroot -g nonroot
 COPY --from=build /app/azure-dyndns2 /app/azure-dyndns2
-RUN zypper refresh
-RUN zypper --non-interactive update
+RUN zypper refresh \
+    && zypper --non-interactive update
 USER nonroot
 WORKDIR /app
 EXPOSE 8080
