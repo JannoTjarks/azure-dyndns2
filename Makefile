@@ -1,10 +1,13 @@
-.PHONY: build test fmt clean
+.PHONY: build build-container test fmt clean
 
 BINARY_NAME := azure-dyndns2
 GO_FLAGS := -mod=vendor
 
 build: ## Build the binary
 	go build $(GO_FLAGS) -o $(BINARY_NAME) .
+
+build-container:
+	podman build -f Dockerfile -t jannotjarks/azure-dyndns2:latest
 
 test: ## Run tests with coverage and race detector
 	go test $(GO_FLAGS) -race -coverprofile=coverage.out -v $$(go list ./... | grep -v "/cmd$$")
