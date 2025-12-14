@@ -3,3 +3,31 @@ builds:
     # Templates: allowed.
     ldflags:
       - '-s -w -X github.com/JannoTjarks/azure-dyndns2/internal/utils.version={{.Version}} -X github.com/JannoTjarks/azure-dyndns2/internal/utils.commit={{.Commit}} -X github.com/JannoTjarks/azure-dyndns2/internal/utils.date={{.Date}} -X github.com/JannoTjarks/azure-dyndns2/internal/utils.buildby=goreleaser'
+
+dockers_v2:
+  - id: jannotjarks/azure-dyndns2
+
+    images:
+      - "ghcr.io/jannotjarks/azure-dyndns2"
+
+    dockerfile: "./gorealeaser.Dockerfile"
+
+    tags:
+      - "{{ .Version }}"
+      - "{{ if .IsNightly }}nightly{{ end }}"
+      - "{{ if not .IsNightly }}latest{{ end }}"
+
+    sbom: "{{ not .IsNightly }}"
+
+    labels:
+      "org.opencontainers.image.description": "Simple dyndns2-compatible web api for Azure DNS"
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Version}}"
+      "org.opencontainers.image.source": "{{.GitURL}}"
+      "org.opencontainers.image.licenses": "AGPLv3"
+
+    platforms:
+      - linux/amd64
+      - linux/arm64
