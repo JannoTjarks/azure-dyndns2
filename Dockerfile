@@ -24,9 +24,8 @@ EXPOSE 8080
 WORKDIR /app
 
 RUN groupadd nonroot \
-    && useradd nonroot -g nonroot
-
-RUN zypper refresh \
+    && useradd nonroot -g nonroot \
+    && zypper refresh \
     && zypper --non-interactive update
 
 USER nonroot
