@@ -19,3 +19,6 @@ fmt: ## Format all go files
 
 clean: ## Remove built files
 	rm -f $(BINARY_NAME) coverage.out coverage.html
+
+integration: build
+	AZURE_DYNDNS_DNS_ZONE_NAME=test ./$(BINARY_NAME) one-shot --hostname integration-test.tjarks.dev --myip 100.64.0.1 --dns-zone-name tjarks.dev --dns-resource-group-name rg-publicdns --dns-subscription-id cf4ea9ae-cfef-4132-a5a1-c507a07a3371
