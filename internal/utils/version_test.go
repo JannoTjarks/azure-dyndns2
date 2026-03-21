@@ -11,7 +11,7 @@ func TestGenerateVersionSignature(t *testing.T) {
 	msg := utils.GenerateVersionSignature()
 
 	if msg != want {
-		t.Errorf(`utils.GenerateVersionSignature() = %q, want match for %#q, nil`, msg, want)
+		t.Errorf(`utils.GenerateVersionSignature() = %v, want match for %#v, nil`, msg, want)
 	}
 }
 
@@ -21,6 +21,6 @@ func TestGenerateVersionJson(t *testing.T) {
 	msg := utils.GenerateVersionJson()
 
 	if msg != want {
-		t.Errorf(`utils.GenerateVersionSignature() = %q, want match for %#q, nil`, msg, want)
+		t.Errorf(`utils.GenerateVersionSignature() = %v, want match for %#v, nil`, msg, want)
 	}
 }

@@ -10,7 +10,7 @@ func TestNewAzureDynDnsRecord(t *testing.T) {
 	record := newAzureDynDnsRecord(name, myip)
 
 	if record != want {
-		t.Errorf(`utils.newAzureDynDnsRecord() = %q, want match for %#q, nil`, record, want)
+		t.Errorf(`utils.newAzureDynDnsRecord() = %v, want match for %#v, nil`, record, want)
 	}
 }
 
@@ -23,7 +23,7 @@ func TestNewAzureDnsZone(t *testing.T) {
 	record := newAzureDnsZone(zone, rg, sub)
 
 	if record != want {
-		t.Errorf(`utils.newAzureDnsZone() = %q, want match for %#q, nil`, record, want)
+		t.Errorf(`utils.newAzureDnsZone() = %v, want match for %#v, nil`, record, want)
 	}
 }
 
@@ -34,7 +34,7 @@ func TestExtractPQDN(t *testing.T) {
 
 	pqdn, err := extractPQDN(hostname, dnsZoneName)
 	if pqdn != want {
-		t.Errorf(`utils.extractPQDN() = %q, want match for %#q, nil`, pqdn, want)
+		t.Errorf(`utils.extractPQDN() = %v, want match for %#v, nil`, pqdn, want)
 	}
 	if err != nil {
 		t.Errorf(`utils.extractPQDN() = invoke of function throws an error`)
