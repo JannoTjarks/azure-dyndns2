@@ -96,6 +96,8 @@ func configHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+
 	jsonBytes, _ := json.Marshal(config)
 
 	fmt.Fprintf(w, "%s\n", string(jsonBytes))
@@ -114,6 +116,8 @@ func versionHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 
 	fmt.Fprintf(w, "%s\n", utils.GenerateVersionJson())
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
