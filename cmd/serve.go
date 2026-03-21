@@ -22,18 +22,19 @@ var serveCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(serveCmd)
-
 	serveCmd.Flags().StringP("port", "p", "", "The port which will be used by the webapi")
 	serveCmd.Flags().String("dns-zone-name", "", "The name of the Azure DNS zone")
 	serveCmd.Flags().String("dns-resource-group-name", "", "The name of the Resource Group which contains the Azure DNS zone")
 	serveCmd.Flags().String("dns-subscription-id", "", "The Subscription Id which contains the Azure DNS zone")
 
-	viper.BindPFlags(serveCmd.Flags())
-	viper.SetDefault("port", "8080")
-	viper.AutomaticEnv()
+	serveCmd.PreRun = func(cmd *cobra.Command, args []string) {
+		viper.BindPFlags(cmd.Flags())
+		viper.SetDefault("port", "8080")
+		viper.AutomaticEnv()
 
-	viper.BindEnv("port", "AZURE_DYNDNS_PORT")
-	viper.BindEnv("dns-zone-name", "AZURE_DYNDNS_DNS_ZONE_NAME")
-	viper.BindEnv("dns-resource-group-name", "AZURE_DYNDNS_DNS_RESOURCE_GROUP_NAME")
-	viper.BindEnv("dns-subscription-id", "AZURE_DYNDNS_DNS_SUBSCRIPTION_ID")
+		viper.BindEnv("port", "AZURE_DYNDNS_PORT")
+		viper.BindEnv("dns-zone-name", "AZURE_DYNDNS_DNS_ZONE_NAME")
+		viper.BindEnv("dns-resource-group-name", "AZURE_DYNDNS_DNS_RESOURCE_GROUP_NAME")
+		viper.BindEnv("dns-subscription-id", "AZURE_DYNDNS_DNS_SUBSCRIPTION_ID")
+	}
 }
