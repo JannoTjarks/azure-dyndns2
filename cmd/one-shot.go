@@ -40,11 +40,12 @@ func init() {
 	oneshotCmd.Flags().String("dns-resource-group-name", "", "The name of the Resource Group which contains the Azure DNS zone")
 	oneshotCmd.Flags().String("dns-subscription-id", "", "The Subscription Id which contains the Azure DNS zone")
 
+	oneshotCmd.PreRun = func(cmd *cobra.Command, args []string) {
+		viper.BindPFlags(cmd.Flags())
+		viper.AutomaticEnv()
 
-	viper.BindPFlags(oneshotCmd.Flags())
-	viper.AutomaticEnv()
-
-	viper.BindEnv("dns-zone-name", "AZURE_DYNDNS_DNS_ZONE_NAME")
-	viper.BindEnv("dns-resource-group-name", "AZURE_DYNDNS_DNS_RESOURCE_GROUP_NAME")
-	viper.BindEnv("dns-subscription-id", "AZURE_DYNDNS_DNS_SUBSCRIPTION_ID")
+		viper.BindEnv("dns-zone-name", "AZURE_DYNDNS_DNS_ZONE_NAME")
+		viper.BindEnv("dns-resource-group-name", "AZURE_DYNDNS_DNS_RESOURCE_GROUP_NAME")
+		viper.BindEnv("dns-subscription-id", "AZURE_DYNDNS_DNS_SUBSCRIPTION_ID")
+	}
 }
