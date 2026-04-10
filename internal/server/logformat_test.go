@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+const TimeFormatRfc3339 = "2006-01-02T15:04:05Z07:00"
+
 // https://httpd.apache.org/docs/2.4/logs.html
 // LogFormat "%h %l %u %t \"%r\" %>s %b" common
 // 127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
@@ -25,9 +27,9 @@ func TestCommonLogFormat(t *testing.T) {
 	currentTime := time.Now()
 	statusCode := 200
 
-	currentTime.Format("2006-01-02T15:04:05Z07:00")
+	currentTime.Format(TimeFormatRfc3339)
 
-	want := fmt.Sprintf("127.0.0.1 - - [%s] \"GET /apache_pb.gif HTTP/1.0\" 200 2326", currentTime.Format("2006-01-02T15:04:05Z07:00"))
+	want := fmt.Sprintf("127.0.0.1 - - [%s] \"GET /apache_pb.gif HTTP/1.0\" 200 2326", currentTime.Format(TimeFormatRfc3339))
 
 	logMsg := formatCommonLog(req, currentTime, statusCode)
 
@@ -51,9 +53,9 @@ func TestCommonLogFormatWithQuery(t *testing.T) {
 	currentTime := time.Now()
 	statusCode := 200
 
-	currentTime.Format("2006-01-02T15:04:05Z07:00")
+	currentTime.Format(TimeFormatRfc3339)
 
-	want := fmt.Sprintf("127.0.0.1 - - [%s] \"GET /apache_pb.gif?demo=test HTTP/1.0\" 200 2400", currentTime.Format("2006-01-02T15:04:05Z07:00"))
+	want := fmt.Sprintf("127.0.0.1 - - [%s] \"GET /apache_pb.gif?demo=test HTTP/1.0\" 200 2400", currentTime.Format(TimeFormatRfc3339))
 
 	logMsg := formatCommonLog(req, currentTime, statusCode)
 

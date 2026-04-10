@@ -113,6 +113,6 @@ func CreateOrUpdateDynDnsRecord(hostname string, myip string, dnsZoneName string
 		return "", err
 	}
 
-	provState := fmt.Sprintf("%s: DNS CreateOrUpdate %s\n", time.Now().Format("2006-01-02T15:04:05Z07:00"), *res.Properties.ProvisioningState)
+	provState := fmt.Sprintf("%s: DNS CreateOrUpdate %s\n", time.Now().Format(TimeFormatRfc3339), *res.Properties.ProvisioningState)
 	return provState, nil
 }
