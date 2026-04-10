@@ -1,7 +1,9 @@
 package main
 
-import "github.com/JannoTjarks/azure-dyndns2/cmd"
-import _ "github.com/JannoTjarks/azure-dyndns2/docs"
+import (
+	"github.com/JannoTjarks/azure-dyndns2/cmd"
+	_ "github.com/JannoTjarks/azure-dyndns2/docs"
+)
 
 // @title		azure-dyndns2
 // @version		0.1.1
