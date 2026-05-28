@@ -1,0 +1,196 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "contact" : {
+      "email" : "janno.tjarks@mailbox.org",
+      "name" : "Janno Tjarks",
+      "url" : "https://tjarks.dev"
+    },
+    "description" : "Simple dyndns2-compatible web api for Azure DNS.",
+    "license" : {
+      "name" : "GNU Affero General Public License v3.0",
+      "url" : "https://www.gnu.org/licenses/agpl-3.0.html"
+    },
+    "title" : "azure-dyndns2",
+    "version" : "0.2.0"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "paths" : {
+    "/" : {
+      "get" : {
+        "description" : "Returns a small welcome message. This welcome page can be used as a very simple healthcheck.",
+        "operationId" : "ping",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "enum" : [ "Thanks for using azure-dyndns2!" ],
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "The request has succeeded."
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/config" : {
+      "get" : {
+        "description" : "Get the current configuration of used azure-dyndns2 instance as json object.",
+        "operationId" : "getConfig",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Config"
+                }
+              }
+            },
+            "description" : "The request has succeeded."
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/metrics" : {
+      "get" : {
+        "description" : "Get the actual Prometheus metrics of azure-dyndns2.",
+        "operationId" : "getMetrics",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "The request has succeeded."
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/nic/update" : {
+      "get" : {
+        "description" : "Set a DNS A Record by using the DynDNS Update API, also called the dyndns2 standard.",
+        "operationId" : "nicUpdate",
+        "parameters" : [ {
+          "description" : "The hostname to which the DNS record being updated refers. - Must be a Fully Qualified Domain Name.",
+          "explode" : false,
+          "in" : "query",
+          "name" : "hostname",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        }, {
+          "description" : "The IP which will be set as part of the DNS update. Must be an IPv4 Address.",
+          "explode" : false,
+          "in" : "query",
+          "name" : "myip",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "The request has succeeded."
+          },
+          "400" : {
+            "description" : "The server could not understand the request due to invalid syntax."
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/version" : {
+      "get" : {
+        "description" : "Get the current version of used azure-dyndns2 instance as json object.",
+        "operationId" : "getVersion",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Version"
+                }
+              }
+            },
+            "description" : "The request has succeeded."
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Config" : {
+        "description" : "This Model describes the configuration of the azure-dyndns2 service.",
+        "properties" : {
+          "port" : {
+            "type" : "string"
+          },
+          "dnsZoneName" : {
+            "type" : "string"
+          },
+          "resourceGroupName" : {
+            "type" : "string"
+          },
+          "subscriptionId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "dnsZoneName", "port", "resourceGroupName", "subscriptionId" ]
+      },
+      "Version" : {
+        "description" : "This Model describes all possible attributes regarding the running version.",
+        "properties" : {
+          "version" : {
+            "type" : "string"
+          },
+          "commit" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string"
+          },
+          "buildby" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "buildby", "commit", "date", "version" ]
+      }
+    }
+  }
+}

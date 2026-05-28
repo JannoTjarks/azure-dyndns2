@@ -1,6 +1,7 @@
 package server
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -15,6 +16,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/swaggo/http-swagger/v2"
 )
+
+var OpenApiFiles embed.FS
 
 var (
 	config ServerConfig
@@ -45,15 +48,6 @@ func newServerConfig(port string, dnsZoneName string, resourceGroupName string, 
 	return config
 }
 
-// @Summary		Update IP address of a DNS Record
-// @Description	Set a DNS A Record by using the DynDNS Update API, also called the dyndns2 standard.
-// @Produce		plain
-// @Param			hostname	query		string		true	"Hostname which will be updated - Must be a Fully Qualified Domain Name"
-// @Param			myip	query		string		false	"IP Address which will be set in Azure DNS - Must be a IPv4 Address"
-// @Success		200		{string}	string
-// @Failure		400		{string}	string
-// @Failure		500		{string}	string
-// @Router		/nic/update [get]
 func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	ipUpdatesProcessedTotal.Inc()
 	if !req.URL.Query().Has("hostname") {
@@ -83,12 +77,6 @@ func ipUpdateHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
-// @Summary		Returns the current configuration of used azure-dyndns2 instance
-// @Description	Returns the current configuration of used azure-dyndns2 instance as json object.
-// @Produce		json
-// @Success		200		{string}	string
-// @Failure		404		{string}	string
-// @Router		/config [get]
 func configHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/config" {
 		http.NotFound(w, req)
@@ -104,12 +92,6 @@ func configHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
-// @Summary		Returns the current version of azure-dyndns2
-// @Description	Returns the current version of azure-dyndns2 as json object.
-// @Produce		json
-// @Success		200		{string}	string
-// @Failure		404		{string}	string
-// @Router		/version [get]
 func versionHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/version" {
 		http.NotFound(w, req)
@@ -123,12 +105,6 @@ func versionHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
 }
 
-// @Summary		Returns a small welcome message
-// @Description	Returns a small welcome message. This welcome page can be used as a very simple healthcheck.
-// @Produce		plain
-// @Success		200		{string}	string
-// @Failure		404		{string}	string
-// @Router		/ [get]
 func rootHandler(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/" {
 		http.NotFound(w, req)
@@ -146,6 +122,44 @@ func fallbackHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(formatCommonLog(*req, time.Now(), http.StatusMethodNotAllowed))
 }
 
+func openapiHandler(w http.ResponseWriter, req *http.Request) {
+	switch file := req.PathValue("file"); file {
+	case "openapi.json":
+		fileContent, err := OpenApiFiles.ReadFile("docs/openapi.json")
+		if err != nil {
+			http.NotFound(w, req)
+			fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, "%s\n", string(fileContent))
+		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
+	case "openapi.yaml":
+		fileContent, err := OpenApiFiles.ReadFile("docs/openapi.yaml")
+		if err != nil {
+			http.NotFound(w, req)
+			fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
+		}
+
+		w.Header().Set("Content-Type", "application/yaml")
+		fmt.Fprintf(w, "%s\n", string(fileContent))
+		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
+	case "docs":
+		fileContent, err := OpenApiFiles.ReadFile("docs/index.html")
+		if err != nil {
+			http.NotFound(w, req)
+			fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
+		}
+
+		w.Header().Set("Content-Type", "text/html")
+		fmt.Fprintf(w, "%s\n", string(fileContent))
+		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusOK))
+	default:
+		http.NotFound(w, req)
+		fmt.Println(formatCommonLog(*req, time.Now(), http.StatusNotFound))
+	}
+}
+
 func Serve(port string, dnsZoneName string, resourceGroupName string, subscriptionId string) {
 	config = newServerConfig(port, dnsZoneName, resourceGroupName, subscriptionId)
 
@@ -154,6 +168,7 @@ func Serve(port string, dnsZoneName string, resourceGroupName string, subscripti
 	mux.HandleFunc("GET /config", configHandler)
 	mux.HandleFunc("GET /version", versionHandler)
 	mux.HandleFunc("GET /swagger/", httpSwagger.Handler(httpSwagger.URL("/swagger/doc.json")))
+	mux.HandleFunc("GET /api/{file}", openapiHandler)
 	mux.HandleFunc("GET /", rootHandler)
 	mux.HandleFunc("/", fallbackHandler)
 
