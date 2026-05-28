@@ -22,3 +22,8 @@ clean: ## Remove built files
 
 integration: build
 	AZURE_DYNDNS_DNS_ZONE_NAME=test ./$(BINARY_NAME) one-shot --hostname integration-test.tjarks.dev --myip 100.64.0.1 --dns-zone-name tjarks.dev --dns-resource-group-name rg-publicdns --dns-subscription-id cf4ea9ae-cfef-4132-a5a1-c507a07a3371
+
+build-docs:
+	openapi-generator-cli generate -i docs/openapi.yaml -g openapi -o docs/
+	openapi-generator-cli generate -i docs/openapi.yaml -g html2 -o docs/
+	rm docs/README.md

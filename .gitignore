@@ -22,3 +22,6 @@ go.work.sum
 .env
 
 azure-dyndns2
+
+docs/.openapi-generator-ignore
+docs/.openapi-generator/

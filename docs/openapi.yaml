@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: janno.tjarks@mailbox.org
+    name: Janno Tjarks
+    url: https://tjarks.dev
+  description: Simple dyndns2-compatible web api for Azure DNS.
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://www.gnu.org/licenses/agpl-3.0.html
+  title: azure-dyndns2
+  version: 0.2.0
+tags: []
+paths:
+  /:
+    get:
+      operationId: ping
+      description: Returns a small welcome message. This welcome page can be used as a very simple healthcheck.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - Thanks for using azure-dyndns2!
+        '500':
+          description: Server error
+  /config:
+    get:
+      operationId: getConfig
+      description: Get the current configuration of used azure-dyndns2 instance as json object.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Config'
+        '500':
+          description: Server error
+  /metrics:
+    get:
+      operationId: getMetrics
+      description: Get the actual Prometheus metrics of azure-dyndns2.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Server error
+  /nic/update:
+    get:
+      operationId: nicUpdate
+      description: Set a DNS A Record by using the DynDNS Update API, also called the dyndns2 standard.
+      parameters:
+        - name: hostname
+          in: query
+          required: true
+          description: The hostname to which the DNS record being updated refers. - Must be a Fully Qualified Domain Name.
+          schema:
+            type: string
+          explode: false
+        - name: myip
+          in: query
+          required: true
+          description: The IP which will be set as part of the DNS update. Must be an IPv4 Address.
+          schema:
+            type: string
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: The server could not understand the request due to invalid syntax.
+        '500':
+          description: Server error
+  /version:
+    get:
+      operationId: getVersion
+      description: Get the current version of used azure-dyndns2 instance as json object.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Version'
+        '500':
+          description: Server error
+components:
+  schemas:
+    Config:
+      type: object
+      required:
+        - port
+        - dnsZoneName
+        - resourceGroupName
+        - subscriptionId
+      properties:
+        port:
+          type: string
+        dnsZoneName:
+          type: string
+        resourceGroupName:
+          type: string
+        subscriptionId:
+          type: string
+      description: This Model describes the configuration of the azure-dyndns2 service.
+    Version:
+      type: object
+      required:
+        - version
+        - commit
+        - date
+        - buildby
+      properties:
+        version:
+          type: string
+        commit:
+          type: string
+        date:
+          type: string
+        buildby:
+          type: string
+      description: This Model describes all possible attributes regarding the running version.

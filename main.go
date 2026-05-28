@@ -1,21 +1,17 @@
 package main
 
 import (
+	"embed"
+
 	"github.com/JannoTjarks/azure-dyndns2/cmd"
-	_ "github.com/JannoTjarks/azure-dyndns2/docs"
+	"github.com/JannoTjarks/azure-dyndns2/internal/server"
 )
 
-// @title		azure-dyndns2
-// @version		0.1.1
-// @description	Simple dyndns2-compatible web api for Azure DNS.
-
-// @contact.name	Janno Tjarks
-// @contact.url	https://tjarks.dev
-// @contact.email	janno.tjarks@mailbox.org
-
-// @license.name	Apache 2.0
-// @license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+//go:embed docs
+var openApiFiles embed.FS
 
 func main() {
+	server.OpenApiFiles = openApiFiles
+
 	cmd.Execute()
 }
