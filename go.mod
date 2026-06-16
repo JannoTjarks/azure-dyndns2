@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.22.0
-	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.1
+	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.14.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns v1.2.0
 	github.com/prometheus/client_golang v1.23.2
 	github.com/spf13/cobra v1.10.2
