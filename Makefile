@@ -1,7 +1,12 @@
-.PHONY: build build-container test fmt clean
+.PHONY: update-go build build-container test fmt clean
 
 BINARY_NAME := azure-dyndns2
 GO_FLAGS := -mod=vendor
+
+update-go:
+	go get -u .
+	go mod vendor
+	go mod tidy
 
 build: ## Build the binary
 	go build $(GO_FLAGS) -o $(BINARY_NAME) .
