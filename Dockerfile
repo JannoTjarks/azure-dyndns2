@@ -15,7 +15,7 @@ COPY ./main.go .
 RUN go build -trimpath -ldflags="-s -w" -o azure-dyndns2 .
  
 # ---------- Stage 2: Final ----------
-FROM opensuse/leap:16.0 AS run
+FROM opensuse/leap:16.1 AS run
 LABEL org.opencontainers.image.source=https://github.com/JannoTjarks/azure-dyndns2
 LABEL org.opencontainers.image.description="Simple dyndns2-compatible web api for Azure DNS"
 LABEL org.opencontainers.image.licenses=AGPLv3

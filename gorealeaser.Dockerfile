@@ -1,5 +1,5 @@
 # https://goreleaser.com/errors/docker-build/#dont
-FROM opensuse/leap:16.0
+FROM opensuse/leap:16.1
 
 ARG TARGETPLATFORM
 
